@@ -12,6 +12,9 @@ def gemfile
     gem 'rubocop'
     gem 'pry-rails'
     gem 'seedbank'
+    
+    # Code smell
+    gem 'reek'
   end
 
   conf_dotenv
