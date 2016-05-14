@@ -3,8 +3,15 @@ def gemfile
   gem 'lograge'
   gem 'dotenv-rails'
 
+  gem 'changey', github: 'adamcooke/changey'
+
+  #Better enum
+  gem 'enumerize'
+
+  # Validation
+  gem 'date_validator'
+
   gem_group :development do
-    gem 'awesome_print'
     gem 'tracer_bullets'
     gem 'bullet'
     gem 'annotate'
@@ -12,12 +19,29 @@ def gemfile
     gem 'rubocop'
     gem 'pry-rails'
     gem 'seedbank'
+    gem 'puma'
+  end
+
+  gem_group :development, :test do
+    gem 'awesome_print'
+    gem 'factory_girl_rails'
+    gem 'faker'
+  end
+
+  gem_group :test do
+    gem 'rspec-rails', require: false
+
+    gem 'database_cleaner'
+    gem 'fuubar'
+    gem 'vcr'
+    gem 'webmock'
   end
 
   conf_dotenv
   conf_seedbank
   conf_lograge
   conf_bullet
+  conf_puma
 end
 
 def conf_dotenv
@@ -26,14 +50,12 @@ def conf_dotenv
 end
 
 def conf_seedbank
-  empty_directory 'db/seeds'
-  create_file 'db/seeds/.keep'
-  empty_directory 'db/seeds/development'
-  create_file 'db/seeds/development/.keep'
-  empty_directory 'db/seeds/staging'
-  create_file 'db/seeds/staging/.keep'
-  empty_directory 'db/seeds/production'
-  create_file 'db/seeds/production/.keep'
+  in_root do
+    run 'rm -rf db/'
+  end
+
+  directory 'db'
+  copy_file 'db/seeds.rb'
 end
 
 def conf_bullet
@@ -45,5 +67,11 @@ end
 def conf_lograge
   inside_initializers do
     copy_file 'lograge.rb'
+  end
+end
+
+def conf_puma
+  inside 'config' do
+    copy_file 'puma.rb'
   end
 end

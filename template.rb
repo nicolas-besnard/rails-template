@@ -1,5 +1,5 @@
 def source_paths
-  Array(super) + [File.expand_path(File.dirname(__FILE__)) + '/files']
+  [File.expand_path(File.dirname(__FILE__)) + '/files']
 end
 
 def inside_initializers
@@ -10,8 +10,16 @@ def inside_initializers
   end
 end
 
+def replace_file(file)
+  remove_file file
+  copy_file file
+end
+
 Dir[File.dirname(__FILE__) + '/sources/*.rb'].each {|file| require file }
 
 database
 gemfile
 rspec
+
+git
+locale
