@@ -35,6 +35,9 @@ def gemfile
     gem 'fuubar'
     gem 'vcr'
     gem 'webmock'
+
+    # Code smell
+    gem 'reek'
   end
 
   conf_dotenv
